@@ -1,0 +1,16 @@
+name: "Add public keys"
+description: "Add public keys for user to ssh authorized keys"
+author: "Gerard Braad <me@gbraad.nl>"
+inputs:
+  username:
+    description: 'The username whose public keys to add.'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Add public keys
+      env:
+        USERNAME: ${{ inputs.username }}
+      run: |
+        curl https://github.com/${USERNAME}.keys | tee -a ${HOME}/.ssh/authorized_keys
+      shell: bash
